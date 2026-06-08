@@ -1,5 +1,6 @@
 import { PokemonResumo } from "../models/Pokemon";
 import { BoxService } from "./BoxService";
+import { formatPokemon } from "../utils/textFormatters";
 
 export class CatalogoPokemon {
   private pokemons: PokemonResumo[] = [];
@@ -28,9 +29,7 @@ export class CatalogoPokemon {
     }
 
     this.pokemons.forEach((pokemon) => {
-      console.log(
-        `#${pokemon.id} - ${pokemon.nome} | Tipos: ${pokemon.tipos.join(", ")} | Altura: ${pokemon.altura} | Peso: ${pokemon.peso}`,
-      );
+      console.log(formatPokemon(pokemon));
     });
   }
 
