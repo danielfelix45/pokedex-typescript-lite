@@ -1,36 +1,19 @@
 import { PokeApiService } from "./services/PokeApiService";
 import { CatalogoPokemon } from "./services/CatalogoPokemon";
+import { BoxService } from "./services/BoxService";
+import { TerminalController } from "./controllers/TerminalController";
 
 async function main() {
   const api = new PokeApiService();
+  const boxService = new BoxService();
 
-  const catalogo = new CatalogoPokemon();
+  const catalogo = new CatalogoPokemon(boxService);
 
-  const pikachu = await api.buscarPokemon("pikachu");
+  await catalogo.carregar();
 
-  if (pikachu) {
-    catalogo.adicionar(pikachu);
-  }
+  const controller = new TerminalController(api, catalogo);
 
-  const charmander = await api.buscarPokemon("charmander");
-
-  if (charmander) {
-    catalogo.adicionar(charmander);
-  }
-
-  const duplicado = await api.buscarPokemon("pikachu");
-
-  if (duplicado) {
-    catalogo.adicionar(duplicado);
-  }
-
-  await api.buscarPokemon("pokemon-inexistente");
-
-  catalogo.listar();
-
-  catalogo.remover(25);
-
-  catalogo.listar();
+  await controller.executar();
 }
 
 main();
